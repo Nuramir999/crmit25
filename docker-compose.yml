@@ -1,0 +1,27 @@
+services:
+  back:
+    build: ./back
+    container_name: django_back
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+        db:
+          condition: service_healthy
+
+  db:
+    image: postgres:18
+    container_name: postgres_db
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgreql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

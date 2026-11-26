@@ -1,26 +1,29 @@
 from rest_framework import serializers
-from study.models import Faculty, Student, Direction, DirectionManager
+from .models import Faculty, Direction, Manager
 
 class FacultySerializer(serializers.ModelSerializer):
     class Meta:
         model = Faculty
-        fields = '_all_'
+        fields = ('id', 'name', 'description')
+
+class DirectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Direction
+        fields = '__all__'
+
+class ManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Manager
+        fields = '__all__'
+
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Student
-        fields = '_all_'
-
-class DirectionSerializer(serializers.ModelSerializer):
-    faculty = FacultySerializer(read_only=True)
-
-    class Meta:
         model = Direction
-        fields = '_all_'
+        fields = '__all__'
+
 
 class DirectionManagerSerializer(serializers.ModelSerializer):
-    direction = DirectionSerializer(read_only=True)
-
     class Meta:
-        model = DirectionManager
-        fields = '_all_'
+         model = Manager  # укажите нужную модель
+         fields = '__all__'
